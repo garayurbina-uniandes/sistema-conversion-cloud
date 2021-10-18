@@ -45,5 +45,11 @@ class VistaTarea(Resource):
     def get(self,id_tarea):
         return tarea_schema.dump(Tarea.query.get_or_404(id_tarea))
 
+    @jwt_required()
+    def put(self,id_tarea):
+        tarea = Tarea.query.get_or_404(id_tarea)
+        tarea.to_format = request.json.get("to_format", tarea.to_format)
+        db.session.commit()
+        return tarea_schema.dump(tarea)
 
 
