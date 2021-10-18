@@ -41,8 +41,9 @@ class VistaLogIn(Resource):
             return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso}
 
 class VistaTarea(Resource):
+    @jwt_required()
     def get(self,id_tarea):
-        return '200'
+        return tarea_schema.dump(Tarea.query.get_or_404(id_tarea))
 
 
 
