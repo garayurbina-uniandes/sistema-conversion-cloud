@@ -1,7 +1,8 @@
 from flask import Flask
 
 urls = { 'VistaSignUp': '/api/auth/signup', 
-         'VistaLogIn': '/api/auth/login'
+         'VistaLogIn': '/api/auth/login',
+         'VistaTarea': '/api/tasks/<int:id_tarea>'
         }
 
 
