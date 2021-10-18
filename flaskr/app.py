@@ -1,7 +1,7 @@
 from . import create_app, urls
 from flask_restful import Api
 from .modelos import Base
-from .vistas import VistaSignUp, VistaLogIn
+from .vistas import VistaSignUp, VistaLogIn, VistaTarea
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from sqlalchemy import create_engine
@@ -11,6 +11,7 @@ def load_context_app(app):
     api = Api(app)    
     api.add_resource(VistaSignUp, urls['VistaSignUp'])
     api.add_resource(VistaLogIn, urls['VistaLogIn'])
+    api.add_resource(VistaTarea, urls['VistaTarea'])
     
 app = create_app("config/default.py")
 

@@ -1,1 +1,1 @@
-SQLALCHEMY_DATABASE_URI = 'sqlite:///formatos.db'
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:admin@localhost/postgres'

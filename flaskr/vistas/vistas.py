@@ -3,11 +3,14 @@ from sqlalchemy.orm.session import Session
 from flask_jwt_extended import jwt_required, create_access_token
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
-from ..modelos import Base, Usuario, UsuarioSchema
+
+from ..modelos import Base, Usuario, UsuarioSchema, Tarea, TareaSchema
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
 usuario_schema = UsuarioSchema()
+tarea_schema = TareaSchema()
+
 engine = create_engine('postgresql://postgres:admin@localhost/postgres')
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
@@ -41,3 +44,10 @@ class VistaLogIn(Resource):
         else:
             token_de_acceso = create_access_token(identity=usuario.id)
             return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso}
+
+class VistaTarea(Resource):
+    def get(self,id_tarea):
+        return '200'
+
+
+
