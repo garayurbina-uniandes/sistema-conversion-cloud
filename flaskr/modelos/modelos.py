@@ -3,16 +3,20 @@ import enum
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
 
-db = SQLAlchemy()
+
+Base = declarative_base()
 
 
-class Usuario(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(50), unique=True, nullable=False)
-    username =  db.Column(db.String(50), unique=True, nullable=False)
-    password1 =  db.Column(db.String(50), nullable=False)
-    password2 =  db.Column(db.String(50), nullable=False)
+class Usuario(Base):
+    __tablename__ = 'usuario'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(50), unique=True, nullable=False)
+    username =  Column(String(50), unique=True, nullable=False)
+    password1 =  Column(String(50), nullable=False)
+    password2 =  Column(String(50), nullable=False)
    
 
 
