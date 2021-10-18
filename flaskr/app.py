@@ -1,7 +1,7 @@
 from . import create_app, urls
 from flask_restful import Api
-from .modelos import Base
 from .vistas import VistaSignUp, VistaLogIn, VistaTarea
+from .modelos import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from sqlalchemy import create_engine
@@ -21,6 +21,8 @@ cors = CORS(app)
 app_context = app.app_context()
 app_context.push()
 load_context_app(app)
+db.init_app(app)
+db.create_all()
 
 
 

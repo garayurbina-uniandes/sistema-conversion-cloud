@@ -5,22 +5,19 @@ from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import DateTime
 
 from flask_sqlalchemy import SQLAlchemy
-from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Enum
 
 
-Base = declarative_base()
+db = SQLAlchemy()
 
 
-class Usuario(Base):
+class Usuario(db.Model):
     __tablename__ = 'usuario'
-    id = Column(Integer, primary_key=True)
-    email = Column(String(50), unique=True, nullable=False)
-    username =  Column(String(50), unique=True, nullable=False)
-    password1 =  Column(String(50), nullable=False)
-    password2 =  Column(String(50), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    username =  db.Column(db.String(50), unique=True, nullable=False)
+    password1 =  db.Column(db.String(50), nullable=False)
+    password2 =  db.Column(db.String(50), nullable=False)
 
 class Estado(enum.Enum):
    UPLOADED = 'uploaded'
@@ -33,15 +30,15 @@ class Medio(enum.Enum):
    WAV = 'WAV'
    WMA = 'WMA'
 
-class Tarea(Base):
+class Tarea(db.Model):
     __tablename__ = 'tarea'
-    id = Column(Integer, primary_key=True)
-    usuario = Column(Integer, ForeignKey("usuario.id"))
-    estado = Column(Enum(Estado))
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
-    time_completed = Column(DateTime(timezone=True), onupdate=func.now())
-    from_format = Column(Enum(Medio))
-    to_format = Column(Enum(Medio))
+    id = db.Column(db.Integer, primary_key=True)
+    usuario = db.Column(db.Integer, ForeignKey("usuario.id"))
+    estado = db.Column(db.Enum(Estado))
+    time_created = db.Column(DateTime(timezone=True), server_default=func.now())
+    time_completed = db.Column(DateTime(timezone=True), onupdate=func.now())
+    from_format = db.Column(db.Enum(Medio))
+    to_format = db.Column(db.Enum(Medio))
    
 
 
