@@ -1,6 +1,6 @@
 from . import create_app, urls
 from flask_restful import Api
-from .vistas import VistaSignUp, VistaLogIn, VistaTarea
+from .vistas import VistaSignUp, VistaLogIn, VistaTarea,VistaTareas
 from .modelos import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -12,6 +12,7 @@ def load_context_app(app):
     api.add_resource(VistaSignUp, urls['VistaSignUp'])
     api.add_resource(VistaLogIn, urls['VistaLogIn'])
     api.add_resource(VistaTarea, urls['VistaTarea'])
+    api.add_resource(VistaTareas, urls['VistaTareas'])
     
 app = create_app("config/default.py")
 
@@ -23,9 +24,6 @@ app_context.push()
 load_context_app(app)
 db.init_app(app)
 db.create_all()
-
-
-
 
 
 jwt = JWTManager(app)

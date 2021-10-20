@@ -53,3 +53,12 @@ class VistaTarea(Resource):
         return tarea_schema.dump(tarea)
 
 
+    
+
+class VistaTareas(Resource):
+    @jwt_required()
+    def get(self):
+        tarea = Tarea.query.all()
+        return [tarea_schema.dump(ta) for ta in tarea]
+
+
