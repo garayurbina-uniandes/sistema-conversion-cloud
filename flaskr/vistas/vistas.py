@@ -19,6 +19,9 @@ from flask import jsonify
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
 
+class VistaPing(Resource):
+    def get(self):
+        return("Pong")
 
 class VistaSignUp(Resource):
 
