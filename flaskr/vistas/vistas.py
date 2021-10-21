@@ -2,7 +2,7 @@ from flask import request
 from flask_jwt_extended import jwt_required, create_access_token
 from flask_restful import Resource
 from datetime import date, datetime
-from ..tareas import registrar_log
+from ..tareas import registrar_log,convertir_archivo
 from ..modelos import db, Usuario, UsuarioSchema, Tarea, TareaSchema
 
 usuario_schema = UsuarioSchema()
@@ -34,7 +34,7 @@ class VistaLogIn(Resource):
         if usuario is None:
             return "El usuario no existe", 404
         else:
-            registrar_log.delay(usuario.username,datetime.utcnow())
+            convertir_archivo.delay('fileLocation','format')
             token_de_acceso = create_access_token(identity=usuario.id)
             return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso}
 
