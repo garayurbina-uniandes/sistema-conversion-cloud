@@ -1,0 +1,5 @@
+--From root run
+
+celery -A flaskr.tareas.tareas worker -l info -P solo --Start Celery
+
+cd flaskr && flask run -- Start python APP dev server
