@@ -54,11 +54,11 @@ class VistaLogIn(Resource):
 
 
 class VistaTarea(Resource):
-    @jwt_required()
+    @jwt_required( )
     def get(self,id_tarea):
         return tarea_schema.dump(Tarea.query.get_or_404(id_tarea))
 
-    @jwt_required()
+    @jwt_required( )
     def put(self,id_tarea):
         tarea = Tarea.query.get_or_404(id_tarea)
         tarea.to_format = request.json.get("to_format", tarea.to_format)
@@ -69,12 +69,12 @@ class VistaTarea(Resource):
        
 
 class VistaTareas(Resource):
-    @jwt_required()
+    @jwt_required( )
     def get(self):
         tarea = Tarea.query.all()
         return [tarea_schema.dump(ta) for ta in tarea]
 
-    @jwt_required()
+    @jwt_required( )
     def post(self):  
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
