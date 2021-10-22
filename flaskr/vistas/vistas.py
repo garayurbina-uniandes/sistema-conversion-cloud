@@ -1,3 +1,4 @@
+from celery.app.base import Celery
 from flask import request
 from flask_jwt_extended import jwt_required, create_access_token
 from flask_restful import Resource
@@ -7,6 +8,8 @@ from ..modelos import db, Usuario, UsuarioSchema, Tarea, TareaSchema
 
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
+
+celery_app = Celery(__name__, broker='redis://localhost:6379/0')
 
 
 class VistaSignUp(Resource):
@@ -34,7 +37,8 @@ class VistaLogIn(Resource):
         if usuario is None:
             return "El usuario no existe", 404
         else:
-            convertir_archivo.delay('fileLocation','format')
+            celery_app.send_task("convertir_archivo", ['file','format'])
+            # convertir_archivo.delay('fileLocation','format')
             token_de_acceso = create_access_token(identity=usuario.id)
             return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso}
 
