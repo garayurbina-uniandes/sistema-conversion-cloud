@@ -3,6 +3,7 @@ from flask.helpers import flash
 from sqlalchemy.orm.session import Session
 from flask_jwt_extended import jwt_required, create_access_token,get_jwt_identity
 from datetime import datetime
+from ..utils import email
 
 
 from flask_restful import Resource
@@ -10,11 +11,9 @@ from sqlalchemy.exc import IntegrityError
 import base64
 
 from ..modelos import db, Usuario, UsuarioSchema, Tarea, TareaSchema
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-from flask import jsonify
-
-
+import os
+import re
 
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
@@ -54,22 +53,26 @@ class VistaLogIn(Resource):
 
 
 class VistaTarea(Resource):
-    @jwt_required( )
+    @jwt_required()
     def get(self,id_tarea):
         return tarea_schema.dump(Tarea.query.get_or_404(id_tarea))
 
-    @jwt_required( )
+    @jwt_required()
     def put(self,id_tarea):
         tarea = Tarea.query.get_or_404(id_tarea)
         tarea.to_format = request.json.get("to_format", tarea.to_format)
         db.session.commit()
         return tarea_schema.dump(tarea)
 
+class VistaEmail(Resource):
+    def get(self):
+        email.email()
+        return "Enviado"
     
        
 
 class VistaTareas(Resource):
-    @jwt_required( )
+    @jwt_required()
     def get(self):
         tarea = Tarea.query.all()
         return [tarea_schema.dump(ta) for ta in tarea]
@@ -78,8 +81,9 @@ class VistaTareas(Resource):
     def post(self):  
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
-        print(usuario)
-        tarea = Tarea(from_format=request.json["fileName"].upper(), to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_completed=datetime.today().strftime('%Y-%m-%d %H:%M'))
+        root, extension = os.path.splitext(request.json["fileName"].upper())   
+        extension = re.sub("\.","",extension)     
+        tarea = Tarea(file_name=request.json["fileName"].upper(),from_format = extension, to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_completed=datetime.today().strftime('%Y-%m-%d %H:%M'))
         db.session.add(tarea)
         db.session.commit()
         return {"mensaje": "tarea creada exitosamente"}   
