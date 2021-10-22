@@ -1,3 +1,4 @@
+from celery.app.base import Celery
 from flask import request
 from flask.helpers import flash
 from sqlalchemy.orm.session import Session
@@ -17,6 +18,8 @@ import re
 
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
+
+celery_app = Celery(__name__, broker='redis://localhost:6379/0')
 
 class VistaPing(Resource):
     def get(self):
@@ -47,10 +50,10 @@ class VistaLogIn(Resource):
         if usuario is None:
             return "El usuario no existe", 404
         else:
+            celery_app.send_task("convertir_archivo", ['file','format'])
+            # convertir_archivo.delay('fileLocation','format')
             token_de_acceso = create_access_token(identity=usuario.id)
             return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso}
-
-
 
 class VistaTarea(Resource):
     @jwt_required()
