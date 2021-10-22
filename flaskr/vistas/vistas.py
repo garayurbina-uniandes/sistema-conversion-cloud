@@ -1,16 +1,29 @@
 from celery.app.base import Celery
 from flask import request
-from flask_jwt_extended import jwt_required, create_access_token
+from flask.helpers import flash
+from sqlalchemy.orm.session import Session
+from flask_jwt_extended import jwt_required, create_access_token,get_jwt_identity
+from datetime import datetime
+from ..utils import email
+
+
 from flask_restful import Resource
-from datetime import date, datetime
-from ..tareas import registrar_log,convertir_archivo
+from sqlalchemy.exc import IntegrityError
+import base64
+
 from ..modelos import db, Usuario, UsuarioSchema, Tarea, TareaSchema
+from sqlalchemy.orm import sessionmaker, Session
+import os
+import re
 
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
 
 celery_app = Celery(__name__, broker='redis://localhost:6379/0')
 
+class VistaPing(Resource):
+    def get(self):
+        return("Pong")
 
 class VistaSignUp(Resource):
 
@@ -54,13 +67,28 @@ class VistaTarea(Resource):
         db.session.commit()
         return tarea_schema.dump(tarea)
 
-
+class VistaEmail(Resource):
+    def get(self):
+        email.email()
+        return "Enviado"
     
+       
 
 class VistaTareas(Resource):
     @jwt_required()
     def get(self):
         tarea = Tarea.query.all()
         return [tarea_schema.dump(ta) for ta in tarea]
+
+    @jwt_required( )
+    def post(self):  
+        jwtHeader = get_jwt_identity()
+        usuario = jwtHeader
+        root, extension = os.path.splitext(request.json["fileName"].upper())   
+        extension = re.sub("\.","",extension)     
+        tarea = Tarea(file_name=request.json["fileName"].upper(),from_format = extension, to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_completed=datetime.today().strftime('%Y-%m-%d %H:%M'))
+        db.session.add(tarea)
+        db.session.commit()
+        return {"mensaje": "tarea creada exitosamente"}   
 
 
