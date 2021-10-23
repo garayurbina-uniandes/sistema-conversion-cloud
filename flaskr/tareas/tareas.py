@@ -1,15 +1,23 @@
+from datetime import datetime
 from celery import Celery
 import os
-import subprocess as sp
 import ffmpeg
-from werkzeug.utils import secure_filename
+from sqlalchemy.sql.functions import func
+from ..utils.email import email
+from ..modelos import db, Usuario, Estado, Tarea
+from ..app import create_app
 
 celery_app = Celery(__name__, broker='redis://localhost:6379/0')
 
+flask_application = create_app("config/default.py")
+app_context = flask_application.app_context()
+app_context.push()
+db.init_app(flask_application)
+
 FFMPEG_BIN = "ffmpeg"
 # Statics
-UPLOAD_FOLDER = 'files\\uploaded'
-DOWNLOAD_FOLDER = 'files\\download'
+UPLOAD_FOLDER = 'files/uploaded'
+DOWNLOAD_FOLDER = 'files/download'
 ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'ogg', 'flac'])
 
 @celery_app.task(name="registrar_log")
@@ -18,17 +26,28 @@ def registrar_log(usuario, fecha):
         file.write('{} - inicio de sesión: {} \n'.format(usuario,fecha))
 
 @celery_app.task(name="convertir_archivo")
-def convertir_archivo(location,newFormat):
-    file = open('test.mp3')
-    format = 'wav'
-    filename = secure_filename(file.name)
+def convertir_archivo(idTarea):
+    tarea  = Tarea.query.get_or_404(idTarea)
+    usuario = Usuario.query.get_or_404(tarea.usuario)
     # Convert
-    dfile = '{}.{}'.format(os.path.splitext(filename)[0], str(format)) # Build file name
-    inputF = os.path.join(UPLOAD_FOLDER, file.name) # Build input path
+    dfile = '{}.{}'.format(os.path.splitext(tarea.file_name)[0], str(tarea.to_format.value)) # Build file name
+    inputF = os.path.join(UPLOAD_FOLDER, tarea.file_name) # Build input path
     outputF = os.path.join(DOWNLOAD_FOLDER, dfile) # Build output path and add file
-    # convertCMD = [FFMPEG_BIN, '-y', '-i', 'test.mp3', 'test.wav'] # Ffmpeg is flexible enough to handle wildstar conversions
     with open('log_signin.txt','a+') as file:
-        file.write('{} - Comando de ejecucion: {} \n'.format('logJose','convertCMD'))
-    ffmpeg.input('test.mp3').output('test.wav').overwrite_output().run()
+        file.write(' file_name {} to_format {} outputF {} \n'.format(tarea.file_name,tarea.to_format.value,outputF))
+    ffmpeg.input(inputF).output(outputF).overwrite_output().run()
+    enviar_correo(tarea,usuario)
+    actualizar_estado(tarea)
+
+def enviar_correo(tarea,usuario):
+  email(tarea,usuario)
+
+def actualizar_estado(tarea):
+    tarea.estado = Estado.PROCESSED
+    tarea.time_completed = func.now()
+    db.session.add(tarea)
+    db.session.commit()  
+
+
 
     
