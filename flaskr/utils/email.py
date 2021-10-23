@@ -2,14 +2,16 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-class email():
+from ..modelos.modelos import Tarea, Usuario
+
+def email(tarea: Tarea,usuario: Usuario):
 
     username = "recursosimp@gmail.com"
     password = "pepesitos"
     mail_from = "recursosimp@gmail.com"
-    mail_to = "j.garay@uniandes.edu.co"
-    mail_subject = "Test Subject"
-    mail_body = "This is a test message"
+    mail_to = usuario.email
+    mail_subject = "Conversión lista"
+    mail_body = "Estimado " + usuario.username + " su archivo convertido está listo para ser descargado"
 
     mimemsg = MIMEMultipart()
     mimemsg['From']=mail_from

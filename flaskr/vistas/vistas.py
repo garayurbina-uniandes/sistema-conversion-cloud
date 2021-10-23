@@ -4,6 +4,8 @@ from flask.helpers import flash
 from sqlalchemy.orm.session import Session
 from flask_jwt_extended import jwt_required, create_access_token,get_jwt_identity
 from datetime import datetime
+
+from sqlalchemy.sql.functions import func
 from ..utils import email
 
 
@@ -50,8 +52,6 @@ class VistaLogIn(Resource):
         if usuario is None:
             return "El usuario no existe", 404
         else:
-            celery_app.send_task("convertir_archivo", ['file','format'])
-            # convertir_archivo.delay('fileLocation','format')
             token_de_acceso = create_access_token(identity=usuario.id)
             return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso}
 
@@ -86,9 +86,10 @@ class VistaTareas(Resource):
         usuario = jwtHeader
         root, extension = os.path.splitext(request.json["fileName"].upper())   
         extension = re.sub("\.","",extension)     
-        tarea = Tarea(file_name=request.json["fileName"].upper(),from_format = extension, to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_completed=datetime.today().strftime('%Y-%m-%d %H:%M'))
+        tarea = Tarea(file_name=request.json["fileName"].upper(),from_format = extension, to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_created=func.now())
         db.session.add(tarea)
         db.session.commit()
+        celery_app.send_task("convertir_archivo", [tarea.id])
         return {"mensaje": "tarea creada exitosamente"}   
 
 
