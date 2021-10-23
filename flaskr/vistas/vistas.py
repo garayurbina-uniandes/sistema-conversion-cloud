@@ -1,11 +1,12 @@
 from celery.app.base import Celery
 from flask import request
-from flask.helpers import flash
+from flask.helpers import flash, send_file
 from sqlalchemy.orm.session import Session
 from flask_jwt_extended import jwt_required, create_access_token,get_jwt_identity
 from datetime import datetime
 
 from sqlalchemy.sql.functions import func
+
 from ..utils import email
 
 
@@ -20,6 +21,9 @@ import re
 
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
+
+UPLOAD_FOLDER = '../../files/uploaded'
+DOWNLOAD_FOLDER = '../../files/download'
 
 celery_app = Celery(__name__, broker='redis://localhost:6379/0')
 
@@ -66,6 +70,13 @@ class VistaTarea(Resource):
         tarea.to_format = request.json.get("to_format", tarea.to_format)
         db.session.commit()
         return tarea_schema.dump(tarea)
+    
+    @jwt_required()
+    def delete(self,id_tarea):
+        tarea = Tarea.query.get_or_404(id_tarea)
+        db.session.delete(tarea)
+        db.session.commit()
+        return {"mensaje": "Tarea {} eliminada exitosamente".format(id_tarea)}
 
 class VistaEmail(Resource):
     def get(self):
@@ -80,7 +91,7 @@ class VistaTareas(Resource):
         tarea = Tarea.query.all()
         return [tarea_schema.dump(ta) for ta in tarea]
 
-    @jwt_required( )
+    @jwt_required()
     def post(self):  
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
@@ -91,5 +102,22 @@ class VistaTareas(Resource):
         db.session.commit()
         celery_app.send_task("convertir_archivo", [tarea.id])
         return {"mensaje": "tarea creada exitosamente"}   
+
+class VistaArchivos(Resource):
+    def get(self,file_name):
+        abs_dir = os.path.dirname(__file__)
+        ruta_relativa = os.path.join(UPLOAD_FOLDER, file_name)
+        #ruta_relativa = '../../files/uploaded/test.mp3'
+        ruta = os.path.join(abs_dir, ruta_relativa)
+        try:
+            open(ruta)
+        except FileNotFoundError:
+            ruta_relativa = os.path.join(DOWNLOAD_FOLDER, file_name)
+            #ruta_relativa = '../../files/download/test.mp3'
+            ruta = os.path.join(abs_dir, ruta_relativa)
+            
+        archivo_adjunto = ruta.split("/")[-1]
+        return send_file(open(ruta, "rb"), attachment_filename=archivo_adjunto)
+
 
 
