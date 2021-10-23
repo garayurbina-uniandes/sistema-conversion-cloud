@@ -15,6 +15,7 @@ def load_context_app(app):
     api.add_resource(VistaTareas, urls['VistaTareas'])
     api.add_resource(VistaPing, urls['VistaPing'])
     api.add_resource(VistaEmail, urls['VistaEmail'])
+    api.add_resource(VistaArchivos, urls['VistaArchivos'])
     
 app = create_app("config/default.py")
 

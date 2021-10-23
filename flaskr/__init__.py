@@ -5,7 +5,8 @@ urls = { 'VistaPing':'/ping',
          'VistaLogIn': '/api/auth/login',
          'VistaTarea': '/api/tasks/<int:id_tarea>',
          'VistaTareas': '/api/tasks',
-         'VistaEmail': '/email'
+         'VistaEmail': '/email',
+         'VistaArchivos': '/api/files/<string:file_name>'
         }
 
 
