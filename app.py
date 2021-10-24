@@ -1,7 +1,7 @@
-from . import create_app, urls
+from flaskr import create_app, urls
 from flask_restful import Api
-from .vistas import *
-from .modelos import db
+from flaskr.vistas import *
+from flaskr.modelos import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from sqlalchemy import create_engine

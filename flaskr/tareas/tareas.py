@@ -5,7 +5,7 @@ import ffmpeg
 from sqlalchemy.sql.functions import func
 from ..utils.email import email
 from ..modelos import db, Usuario, Estado, Tarea
-from ..app import create_app
+from flaskr import create_app
 
 celery_app = Celery(__name__, broker='redis://localhost:6379/0')
 
