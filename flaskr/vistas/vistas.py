@@ -88,7 +88,9 @@ class VistaEmail(Resource):
 class VistaTareas(Resource):
     @jwt_required()
     def get(self):
-        tarea = Tarea.query.all()
+        jwtHeader = get_jwt_identity()
+        usuario = jwtHeader
+        tarea = Tarea.query.get_or_404(usuario)
         return [tarea_schema.dump(ta) for ta in tarea]
 
     @jwt_required()
