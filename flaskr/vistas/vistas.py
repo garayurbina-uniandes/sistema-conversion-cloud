@@ -64,7 +64,11 @@ class VistaLogIn(Resource):
 class VistaTarea(Resource):
     @jwt_required()
     def get(self,id_tarea):
-        return tarea_schema.dump(Tarea.query.get_or_404(id_tarea))
+        tarea = Tarea.query.get(id_tarea)
+        if tarea is None:
+            return "No existe una tarea con esta identificación.", 404
+        else:
+            return tarea_schema.dump(tarea)
 
     @jwt_required()
     def put(self,id_tarea):
