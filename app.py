@@ -6,6 +6,7 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
+import logging
 
 def load_context_app(app):
     api = Api(app)    
@@ -18,6 +19,9 @@ def load_context_app(app):
     api.add_resource(VistaArchivos, urls['VistaArchivos'])
     
 app = create_app("config/default.py")
+gunicorn_error_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers.extend(gunicorn_error_logger.handlers)
+app.logger.setLevel(logging.DEBUG)
 
 
 cors = CORS(app)
