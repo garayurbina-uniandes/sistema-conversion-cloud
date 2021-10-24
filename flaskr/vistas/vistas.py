@@ -37,7 +37,9 @@ class VistaSignUp(Resource):
         usuario_username = Usuario.query.filter(Usuario.username == request.json["username"]).first()
         usuario_email = Usuario.query.filter(Usuario.email == request.json["email"]).first()
         db.session.commit()
-        if usuario_username is None and usuario_email is None:                
+        if request.json["password1"] != request.json["password2"]:
+            return "Las contraseñas no coinciden", 400
+        elif usuario_username is None and usuario_email is None:               
             nuevo_usuario = Usuario(email=request.json["email"], username=request.json["username"], password1=request.json["password1"],password2=request.json["password2"])
             db.session.add(nuevo_usuario)
             db.session.commit()
