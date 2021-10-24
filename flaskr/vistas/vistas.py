@@ -72,11 +72,14 @@ class VistaTarea(Resource):
 
     @jwt_required()
     def put(self,id_tarea):
-        tarea = Tarea.query.get_or_404(id_tarea)
-        tarea.to_format = request.json.get("new_format", tarea.to_format)
-        tarea.estado = 'UPLOADED'
-        db.session.commit()
-        return tarea_schema.dump(tarea)
+        tarea = Tarea.query.get(id_tarea)
+        if tarea is None:
+            return "No existe una tarea con esta identificación.", 404
+        else:
+            tarea.to_format = request.json.get("new_format", tarea.to_format)
+            tarea.estado = 'UPLOADED'
+            db.session.commit()
+            return tarea_schema.dump(tarea)
     
     @jwt_required()
     def delete(self,id_tarea):
