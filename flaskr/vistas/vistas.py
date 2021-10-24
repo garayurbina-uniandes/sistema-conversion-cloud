@@ -83,10 +83,13 @@ class VistaTarea(Resource):
     
     @jwt_required()
     def delete(self,id_tarea):
-        tarea = Tarea.query.get_or_404(id_tarea)
-        db.session.delete(tarea)
-        db.session.commit()
-        return {"mensaje": "Tarea {} eliminada exitosamente".format(id_tarea)}
+        tarea = Tarea.query.get(id_tarea)
+        if tarea is None:
+            return "No existe una tarea con esta identificación.", 404
+        else:
+            db.session.delete(tarea)
+            db.session.commit()
+            return {"mensaje": "Tarea {} eliminada exitosamente".format(id_tarea)}
 
 class VistaEmail(Resource):
     def get(self):
