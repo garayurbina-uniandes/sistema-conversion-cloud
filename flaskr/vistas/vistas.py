@@ -37,9 +37,7 @@ class VistaSignUp(Resource):
         usuario_username = Usuario.query.filter(Usuario.username == request.json["username"]).first()
         usuario_email = Usuario.query.filter(Usuario.email == request.json["email"]).first()
         db.session.commit()
-        if request.json["password1"] != request.json["password2"]:
-            return "Las contraseñas no coinciden", 400
-        elif usuario_username is None and usuario_email is None:               
+        if usuario_username is None and usuario_email is None:                
             nuevo_usuario = Usuario(email=request.json["email"], username=request.json["username"], password1=request.json["password1"],password2=request.json["password2"])
             db.session.add(nuevo_usuario)
             db.session.commit()
@@ -64,32 +62,21 @@ class VistaLogIn(Resource):
 class VistaTarea(Resource):
     @jwt_required()
     def get(self,id_tarea):
-        tarea = Tarea.query.get(id_tarea)
-        if tarea is None:
-            return "No existe una tarea con esta identificación.", 404
-        else:
-            return tarea_schema.dump(tarea)
+        return tarea_schema.dump(Tarea.query.get_or_404(id_tarea))
 
     @jwt_required()
     def put(self,id_tarea):
-        tarea = Tarea.query.get(id_tarea)
-        if tarea is None:
-            return "No existe una tarea con esta identificación.", 404
-        else:
-            tarea.to_format = request.json.get("new_format", tarea.to_format)
-            tarea.estado = 'UPLOADED'
-            db.session.commit()
-            return tarea_schema.dump(tarea)
+        tarea = Tarea.query.get_or_404(id_tarea)
+        tarea.to_format = request.json.get("to_format", tarea.to_format)
+        db.session.commit()
+        return tarea_schema.dump(tarea)
     
     @jwt_required()
     def delete(self,id_tarea):
-        tarea = Tarea.query.get(id_tarea)
-        if tarea is None:
-            return "No existe una tarea con esta identificación.", 404
-        else:
-            db.session.delete(tarea)
-            db.session.commit()
-            return {"mensaje": "Tarea {} eliminada exitosamente".format(id_tarea)}
+        tarea = Tarea.query.get_or_404(id_tarea)
+        db.session.delete(tarea)
+        db.session.commit()
+        return {"mensaje": "Tarea {} eliminada exitosamente".format(id_tarea)}
 
 class VistaEmail(Resource):
     def get(self):
@@ -99,11 +86,11 @@ class VistaEmail(Resource):
        
 
 class VistaTareas(Resource):
-    @jwt_required()
+    @jwt_required() 
     def get(self):
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
-        tarea = Tarea.query.get_or_404(usuario)
+        tarea = Tarea.query.filter(Tarea.usuario == usuario)
         return [tarea_schema.dump(ta) for ta in tarea]
 
     @jwt_required()
