@@ -38,7 +38,7 @@ class Tarea(db.Model):
     time_completed = db.Column(DateTime(timezone=True), onupdate=func.now())
     from_format = db.Column(db.Enum(Medio))
     to_format = db.Column(db.Enum(Medio))
-    file_name =  db.Column(db.String(100), nullable=False)
+    file_name = db.Column(db.String(100), nullable=False)
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
