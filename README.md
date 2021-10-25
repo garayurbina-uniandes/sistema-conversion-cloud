@@ -4,7 +4,7 @@
 
 pip install -r requirements.txt
 
-##Ejecución de cola de mensajería
+## Ejecución de cola de mensajería
 
 Se requiere tener instalado redis y celery en la máquina virtual
 
