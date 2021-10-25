@@ -1,6 +1,6 @@
 # Proyecto-Grupo16-202120
 
-##Cargar requerimientos del proyecto
+## Cargar requerimientos del proyecto
 
 pip install -r requirements.txt
 
@@ -20,7 +20,7 @@ En la raíz del proyecto ejecutar el comando
 celery -A flaskr.tareas.tareas worker -l info -P solo
 ```
 
-##Ejecución de app web
+## Ejecución de app web
 
 Para subir el servidor web de gunicorn ejecutar el siguiente comando
 
