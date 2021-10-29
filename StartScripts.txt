@@ -1,3 +1,15 @@
+-- EC2 Commands Installation
+
+pip install virtualenv
+
+virtualenv venv
+
+source venv/bin/activate
+
+cd flaskr
+pip install -r requirements.txt
+
+
 --From root run
 
 celery -A flaskr.tareas.tareas worker -l info -P solo --Start Celery
