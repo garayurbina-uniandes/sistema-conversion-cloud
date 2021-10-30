@@ -1,1 +1,1 @@
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/local'
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@mi-database-01.ciksrkbct7fm.us-east-1.rds.amazonaws.com:5432/local'
