@@ -25,7 +25,7 @@ tarea_schema = TareaSchema()
 UPLOAD_FOLDER = '../../files/uploaded'
 DOWNLOAD_FOLDER = '../../files/download'
 
-celery_app = Celery(__name__, broker='redis://ec2-54-196-252-222.compute-1.amazonaws.com:6379/0')
+celery_app = Celery(__name__, broker='redis://172.31.88.105:6379/0')
 
 class VistaPing(Resource):
     def get(self):

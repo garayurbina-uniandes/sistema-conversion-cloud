@@ -22,6 +22,7 @@ app = create_app("config/default.py")
 gunicorn_error_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers.extend(gunicorn_error_logger.handlers)
 app.logger.setLevel(logging.DEBUG)
+app.debug = True
 
 
 cors = CORS(app)
