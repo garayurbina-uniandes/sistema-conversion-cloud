@@ -36,7 +36,7 @@ def convertir_archivo(idTarea):
     with open('log_signin.txt','a+') as file:
         file.write(' file_name {} to_format {} outputF {} \n'.format(tarea.file_name,tarea.to_format.value,outputF))
     ffmpeg.input(inputF).output(outputF).overwrite_output().run()
-    enviar_correo(tarea,usuario)
+    # enviar_correo(tarea,usuario) desactivado por limitación AWS Academy
     actualizar_estado(tarea)
 
 def enviar_correo(tarea,usuario):
