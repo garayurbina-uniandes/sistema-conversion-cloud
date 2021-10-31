@@ -11,12 +11,15 @@ pip install -r requirements.txt
 
 
 --From root run
+-- Gunicorn https://www.golinuxcloud.com/flask-gunicorn-nginx/
 
-celery -A flaskr.tareas.tareas worker -l info -P solo --Start Celery
+ sudo apt install redis-server
+
+celery -A flaskr.tareas.tareas worker -l info -P solo --levantar celery
 
 cd flaskr && flask run -- Start python APP dev server
 
-gunicorn -w 4 --bind 0.0.0.0:8000 wsgi:app --gunicorn server
+gunicorn -w 4 --bind 0.0.0.0:8000 wsgi:app  --levantar servidor gunicorn
 
 ps ax|grep gunicorn --view gunicorn status
 
