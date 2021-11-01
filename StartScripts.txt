@@ -34,3 +34,5 @@ bind 0.0.0.0
 and then restart the service:
 
 sudo service redis-server restart
+
+--CONFIGURAR NFS https://www.tecmint.com/install-nfs-server-on-ubuntu/

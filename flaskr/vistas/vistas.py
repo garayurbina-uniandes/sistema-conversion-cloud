@@ -24,6 +24,8 @@ tarea_schema = TareaSchema()
 
 UPLOAD_FOLDER = '../../files/uploaded'
 DOWNLOAD_FOLDER = '../../files/download'
+EC2_UPLOAD_FOLDER = '/mnt/nfs_clientshare/files/uploaded/'
+EC2_DOWNLOAD_FOLDER = '/mnt/nfs_clientshare/files/download/'
 
 celery_app = Celery(__name__, broker='redis://ip-172-31-20-38.ec2.internal:6379/0')
 
@@ -108,13 +110,13 @@ class VistaTareas(Resource):
 class VistaArchivos(Resource):
     def get(self,file_name):
         abs_dir = os.path.dirname(__file__)
-        ruta_relativa = os.path.join(UPLOAD_FOLDER, file_name)
+        ruta_relativa = os.path.join(EC2_UPLOAD_FOLDER, file_name)
         #ruta_relativa = '../../files/uploaded/test.mp3'
         ruta = os.path.join(abs_dir, ruta_relativa)
         try:
             open(ruta)
         except FileNotFoundError:
-            ruta_relativa = os.path.join(DOWNLOAD_FOLDER, file_name)
+            ruta_relativa = os.path.join(EC2_DOWNLOAD_FOLDER, file_name)
             #ruta_relativa = '../../files/download/test.mp3'
             ruta = os.path.join(abs_dir, ruta_relativa)
             
