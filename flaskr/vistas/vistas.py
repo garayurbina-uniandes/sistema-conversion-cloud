@@ -43,7 +43,7 @@ class VistaSignUp(Resource):
             nuevo_usuario = Usuario(email=request.json["email"], username=request.json["username"], password1=request.json["password1"],password2=request.json["password2"])
             db.session.add(nuevo_usuario)
             db.session.commit()
-            token_de_acceso = create_access_token(identity=nuevo_usuario.id, fresh=datetime.timedelta(minutes=60))
+            token_de_acceso = create_access_token(identity=nuevo_usuario.id)
             return {"mensaje": "usuario creado exitosamente", "token": token_de_acceso}
         else:
             return "El usuario ya existe"
@@ -95,7 +95,7 @@ class VistaTareas(Resource):
         tarea = Tarea.query.filter(Tarea.usuario == usuario)
         return [tarea_schema.dump(ta) for ta in tarea]
 
-    @jwt_required(optional=True)
+    @jwt_required()
     def post(self):  
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
