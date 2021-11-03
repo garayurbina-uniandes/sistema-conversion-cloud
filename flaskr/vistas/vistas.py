@@ -95,7 +95,7 @@ class VistaTareas(Resource):
         tarea = Tarea.query.filter(Tarea.usuario == usuario)
         return [tarea_schema.dump(ta) for ta in tarea]
 
-    @jwt_required(refresh=True)
+    @jwt_required()
     def post(self):  
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
