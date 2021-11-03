@@ -43,7 +43,7 @@ class VistaSignUp(Resource):
             nuevo_usuario = Usuario(email=request.json["email"], username=request.json["username"], password1=request.json["password1"],password2=request.json["password2"])
             db.session.add(nuevo_usuario)
             db.session.commit()
-            token_de_acceso = create_access_token(identity=nuevo_usuario.id, fresh=datetime.timedelta(minutes=120))
+            token_de_acceso = create_access_token(identity=nuevo_usuario.id, fresh=False)
             return {"mensaje": "usuario creado exitosamente", "token": token_de_acceso}
         else:
             return "El usuario ya existe"
