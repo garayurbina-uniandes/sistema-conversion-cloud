@@ -1,3 +1,37 @@
+# Ejecución en AWS Entrega 3 Auto Scaling Web
+
+## Asegurarse que la instancia Worker esté en ejecución y que el grupo de autoscaling tenga al menos una instancia aprovisionada
+
+## Ejecución de API
+Por defecto el script de arranque configurado en el grupo de autoscaling aprovisionará las instancias web con las dependencias necesarias y el código de la aplicación
+
+## Montar Sistema de archivos S3 en Worker
+En la instancia del worker, ejecutar el siguiente comando
+
+```bash
+mkdir /mnt/nfs_clientshare
+sudo s3fs sistema-conversion-cloud-grupo-16 /mnt/nfs_clientshare -o iam_role=LabRole -o allow_other -o complement_stat,nonempty
+chmod -R 777 /mnt/nfs_clientshare/files
+```
+
+## Ejecutar Celery
+En la instancia del worker, ingresar a la carpeta Proyecto-Grupo16-2021/flaskr y ejecutar
+
+```bash
+source venv/bin/activate
+```
+Posteriormente regresar a la carpeta raíz del repositorio y ejecutar
+
+```bash
+celery -A flaskr.tareas.tareas worker -l info
+```
+
+## Pruebas de humo
+
+Para probar que nuestra aplicación web se está ejecutando correctamente podemos ingresar a la URL 
+
+http://Grupo-conversion-1-2079320198.us-east-1.elb.amazonaws.com:8000/ping
+
 # Ejecución en AWS Entrega 2
 
 ## Asegurarse que las instancias Web Server, Worker y File Server están ejecutándose en AWS Academy Learner Lab
