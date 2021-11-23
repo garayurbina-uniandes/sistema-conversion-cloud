@@ -19,7 +19,6 @@ gunicorn -w 4 --bind 0.0.0.0:8000 wsgi:app
 apt update -y
 apt install git python3-pip -y
 pip3 install --upgrade pip
-apt install s3fs awscli -y
 apt-get install -y --no-install-recommends libcurl4-nss-dev libssl-dev
 cd /home/ubuntu
 git clone https://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:x-oauth-basic@github.com/MISW-4204-ComputacionEnNube/Proyecto-Grupo16-202120.git
@@ -27,6 +26,7 @@ chmod 777 -R Proyecto-Grupo16-202120
 cd Proyecto-Grupo16-202120/flaskr
 pip3 install -r requirements.txt
 cd ..
+celery -A flaskr.tareas.tareas worker -l info -P threads
 
 
 -- EC2 Commands Installation

@@ -29,17 +29,18 @@ def registrar_log(usuario, fecha):
 
 @celery_app.task(name="convertir_archivo")
 def convertir_archivo(idTarea):
-    tarea  = Tarea.query.get_or_404(idTarea)
-    usuario = Usuario.query.get_or_404(tarea.usuario)
-    # Convert
-    dfile = '{}.{}'.format(os.path.splitext(tarea.file_name)[0], str(tarea.to_format.value)) # Build file name
-    inputF = os.path.join(EC2_UPLOAD_FOLDER, tarea.file_name) # Build input path
-    outputF = os.path.join(EC2_DOWNLOAD_FOLDER, dfile) # Build output path and add file
-    with open('log_signin.txt','a+') as file:
-        file.write(' file_name {} to_format {} outputF {} \n'.format(tarea.file_name,tarea.to_format.value,outputF))
-    ffmpeg.input(inputF).output(outputF).overwrite_output().run()
-    # enviar_correo(tarea,usuario) desactivado por limitación AWS Academy
-    actualizar_estado(tarea)
+    with flask_application.app_context():
+        tarea  = Tarea.query.get_or_404(idTarea)
+        usuario = Usuario.query.get_or_404(tarea.usuario)
+        # Convert
+        dfile = '{}.{}'.format(os.path.splitext(tarea.file_name)[0], str(tarea.to_format.value)) # Build file name
+        inputF = os.path.join(EC2_UPLOAD_FOLDER, tarea.file_name) # Build input path
+        outputF = os.path.join(EC2_DOWNLOAD_FOLDER, dfile) # Build output path and add file
+        with open('log_signin.txt','a+') as file:
+            file.write(' file_name {} to_format {} outputF {} \n'.format(tarea.file_name,tarea.to_format.value,outputF))
+        ffmpeg.input(inputF).output(outputF).overwrite_output().run()
+        # enviar_correo(tarea,usuario) desactivado por limitación AWS Academy
+        actualizar_estado(tarea)
 
 def enviar_correo(tarea,usuario):
   email(tarea,usuario)
