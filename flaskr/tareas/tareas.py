@@ -7,7 +7,7 @@ from ..utils.email import email
 from ..modelos import db, Usuario, Estado, Tarea
 from flaskr import create_app
 
-celery_app = Celery(__name__, broker='sqs://sqs.us-east-1.amazonaws.com/685598620031/conversion-cloud-cola/0')
+celery_app = Celery(__name__, broker='sqs://')
 
 flask_application = create_app("config/default.py")
 app_context = flask_application.app_context()

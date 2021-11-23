@@ -27,7 +27,7 @@ DOWNLOAD_FOLDER = '../../files/download'
 EC2_UPLOAD_FOLDER = '/mnt/nfs_clientshare/files/uploaded/'
 EC2_DOWNLOAD_FOLDER = '/mnt/nfs_clientshare/files/download/'
 
-celery_app = Celery(__name__, broker='sqs://sqs.us-east-1.amazonaws.com/685598620031/conversion-cloud-cola/0')
+celery_app = Celery(__name__, broker='sqs://')
 
 class VistaPing(Resource):
     def get(self):
