@@ -56,3 +56,8 @@ sudo service redis-server restart
 
 Iniciar conexion con NFS Worker y API
 sudo mount 172.31.17.66:/mnt/nfs_share  /mnt/nfs_clientshare
+
+--
+Resolver error  Error: pg_config executable not found.
+Antes de ejecutar pip3 install -r requirements.txt correr el siguiente comando
+sudo apt-get install libpq-dev python-dev
