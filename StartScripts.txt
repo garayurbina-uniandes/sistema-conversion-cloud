@@ -3,6 +3,7 @@
 apt update -y
 apt install git python3-pip -y
 pip3 install --upgrade pip
+apt-get install -y --no-install-recommends libcurl4-nss-dev libssl-dev
 apt install s3fs awscli -y
 mkdir /mnt/nfs_clientshare
 sudo s3fs sistema-conversion-cloud-grupo-16 /mnt/nfs_clientshare -o iam_role=LabRole -o allow_other -o complement_stat,nonempty
@@ -16,10 +17,16 @@ cd ..
 gunicorn -w 4 --bind 0.0.0.0:8000 wsgi:app
 
 --StartScriptWorker
+#!/bin/bash
 apt update -y
 apt install git python3-pip -y
 pip3 install --upgrade pip
 apt-get install -y --no-install-recommends libcurl4-nss-dev libssl-dev
+apt install s3fs awscli -y
+apt install ffmpeg
+mkdir /mnt/nfs_clientshare
+sudo s3fs sistema-conversion-cloud-grupo-16 /mnt/nfs_clientshare -o iam_role=LabRole -o allow_other -o complement_stat,nonempty
+chmod -R 777 /mnt/nfs_clientshare/files
 cd /home/ubuntu
 git clone https://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:x-oauth-basic@github.com/MISW-4204-ComputacionEnNube/Proyecto-Grupo16-202120.git
 chmod 777 -R Proyecto-Grupo16-202120
@@ -75,3 +82,12 @@ sudo mount 172.31.17.66:/mnt/nfs_share  /mnt/nfs_clientshare
 Resolver error  Error: pg_config executable not found.
 Antes de ejecutar pip3 install -r requirements.txt correr el siguiente comando
 sudo apt-get install libpq-dev python-dev
+
+--Inspect running process in ubuntu
+ps aux
+cat /proc/<pid>/fd/1
+
+--Monitor CPU Usage
+sudo apt-get install sysstat
+mpstat 5 100  ---cada 5 segundos muestra en consola uso de cpu hasta 100 veces
+
