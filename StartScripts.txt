@@ -85,9 +85,9 @@ sudo apt-get install libpq-dev python-dev
 
 --Inspect running process in ubuntu
 ps aux
-cat /proc/<pid>/fd/1
+sudo cat /proc/<pid>/fd/1
 
 --Monitor CPU Usage
 sudo apt-get install sysstat
-mpstat 5 100  ---cada 5 segundos muestra en consola uso de cpu hasta 100 veces
+mpstat 5 100 > /home/ubuntu/mpstat  ---cada 5 segundos muestra en consola uso de cpu hasta 100 veces
 
