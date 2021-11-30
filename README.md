@@ -1,3 +1,11 @@
+# Ejecución en AWS Entrega 5 Despliegue en PaaS
+
+# Ejecución en AWS Entrega 4 Auto Scaling Background
+
+## Asegurarse que los grupos de autoscaling tengan al menos una instancia aprovisionada, tanto el grupo del worker como el grupo de la capa web
+
+El despliegue de los servicios se realiza automáticamente dentro de los grupos de auto-scaling
+
 # Ejecución en AWS Entrega 3 Auto Scaling Web
 
 ## Asegurarse que la instancia Worker esté en ejecución y que el grupo de autoscaling tenga al menos una instancia aprovisionada
