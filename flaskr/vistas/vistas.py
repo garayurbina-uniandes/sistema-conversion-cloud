@@ -116,7 +116,7 @@ class VistaArchivos(Resource):
         try:
             open(ruta)
         except FileNotFoundError:
-            ruta_relativa = os.path.join(EC2_DOWNLOAD_FOLDER, file_name)
+            ruta_relativa = os.path.join(DOWNLOAD_FOLDER, file_name)
             #ruta_relativa = '../../files/download/test.mp3'
             ruta = os.path.join(abs_dir, ruta_relativa)
             
