@@ -1,1 +1,1 @@
-worker: celery -A tareas worker -l info -P threads
+worker: celery -A tareas worker -c 1 --beat -l info
