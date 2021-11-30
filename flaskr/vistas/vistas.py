@@ -110,7 +110,7 @@ class VistaTareas(Resource):
 class VistaArchivos(Resource):
     def get(self,file_name):
         abs_dir = os.path.dirname(__file__)
-        ruta_relativa = os.path.join(EC2_UPLOAD_FOLDER, file_name)
+        ruta_relativa = os.path.join(UPLOAD_FOLDER, file_name)
         #ruta_relativa = '../../files/uploaded/test.mp3'
         ruta = os.path.join(abs_dir, ruta_relativa)
         try:
