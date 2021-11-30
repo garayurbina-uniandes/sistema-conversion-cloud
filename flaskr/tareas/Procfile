@@ -1,1 +1,1 @@
-worker: python tareas.py celery worker --loglevel=info
+worker: celery app:tareas
