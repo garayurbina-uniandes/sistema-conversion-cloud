@@ -27,7 +27,7 @@ DOWNLOAD_FOLDER = '../../files/download'
 EC2_UPLOAD_FOLDER = '/mnt/nfs_clientshare/files/uploaded/'
 EC2_DOWNLOAD_FOLDER = '/mnt/nfs_clientshare/files/download/'
 
-celery_app = Celery(__name__, broker='sqs://')
+celery_app = Celery(__name__, broker=os.environ['REDIS_URL'])
 
 class VistaPing(Resource):
     def get(self):
