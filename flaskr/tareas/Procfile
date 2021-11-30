@@ -1,1 +1,1 @@
-worker: celery app:tareas
+worker: celery -A tareas worker -l info -P threads
