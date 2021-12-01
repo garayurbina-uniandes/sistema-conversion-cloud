@@ -99,9 +99,9 @@ class VistaTareas(Resource):
     def post(self):  
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
-        root, extension = os.path.splitext(request.json["fileName"].upper())   
+        root, extension = os.path.splitext(request.json["fileName"])   
         extension = re.sub("\.","",extension)     
-        tarea = Tarea(file_name=request.json["fileName"].upper(),from_format = extension, to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_created=func.now())
+        tarea = Tarea(file_name=request.json["fileName"],from_format = extension, to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_created=func.now())
         db.session.add(tarea)
         db.session.commit()
         celery_app.send_task("convertir_archivo", [tarea.id])
