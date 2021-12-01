@@ -1,2 +1,2 @@
 web: gunicorn app:app
-worker: celery worker -A flaskr.tareas.tareas -l info -P threads
+worker: celery -A flaskr.tareas.tareas worker -l info -P threads
