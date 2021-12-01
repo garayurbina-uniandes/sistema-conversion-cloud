@@ -34,8 +34,8 @@ def convertir_archivo(idTarea):
         usuario = Usuario.query.get_or_404(tarea.usuario)
         # Convert
         dfile = '{}.{}'.format(os.path.splitext(tarea.file_name)[0], str(tarea.to_format.value)) # Build file name
-        inputF = os.path.join(EC2_UPLOAD_FOLDER, tarea.file_name) # Build input path
-        outputF = os.path.join(EC2_DOWNLOAD_FOLDER, dfile) # Build output path and add file
+        inputF = os.path.join(UPLOAD_FOLDER, tarea.file_name) # Build input path
+        outputF = os.path.join(DOWNLOAD_FOLDER, dfile) # Build output path and add file
         with open('log_signin.txt','a+') as file:
             file.write(' file_name {} to_format {} outputF {} \n'.format(tarea.file_name,tarea.to_format.value,outputF))
         ffmpeg.input(inputF).output(outputF).overwrite_output().run()
