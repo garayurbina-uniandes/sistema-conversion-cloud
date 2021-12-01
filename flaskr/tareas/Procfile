@@ -1,1 +1,1 @@
-worker: celery -A flaskr.tareas.tareas worker -l info -P threads
+worker: celery worker -A tareas -l info -P threads
