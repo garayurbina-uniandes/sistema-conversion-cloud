@@ -91,3 +91,6 @@ sudo cat /proc/<pid>/fd/1
 sudo apt-get install sysstat
 mpstat 5 100 > /home/ubuntu/mpstat  ---cada 5 segundos muestra en consola uso de cpu hasta 100 veces
 
+--Amazon S3 Boto
+https://www.youtube.com/watch?v=JmrYZPjSDl4&ab_channel=JieJenn
+

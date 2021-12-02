@@ -6,6 +6,8 @@ from sqlalchemy.sql.functions import func
 from ..utils.email import email
 from ..modelos import db, Usuario, Estado, Tarea
 from flaskr import create_app
+from ..utils.botos3 import download_from_s3, upload_to_s3
+import logging
 
 celery_app = Celery(__name__, broker=os.environ['REDIS_URL'])
 
@@ -38,7 +40,13 @@ def convertir_archivo(idTarea):
         outputF = os.path.join(DOWNLOAD_FOLDER, dfile) # Build output path and add file
         with open('log_signin.txt','a+') as file:
             file.write(' file_name {} to_format {} outputF {} \n'.format(tarea.file_name,tarea.to_format.value,outputF))
+        # Get S3 File
+        logging.info('Getting file from S3...')
+        download_from_s3(inputF,inputF)
         ffmpeg.input(inputF).output(outputF).overwrite_output().run()
+        # Upload to S3 Converted File
+        logging.info('Uploading converted file to S3...')
+        upload_to_s3(outputF,outputF)
         # enviar_correo(tarea,usuario) desactivado por limitación AWS Academy
         actualizar_estado(tarea)
 
