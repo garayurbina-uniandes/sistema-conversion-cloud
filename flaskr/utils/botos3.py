@@ -11,7 +11,7 @@ session = Session(aws_access_key_id=ACCESS_KEY_ID,
                     aws_session_token=SESSION_TOKEN)
 
 s3 = session.resource('s3')
-bucket = 'sistema-conversion-cloud-grupo-16'
+bucket = os.environ['BUCKET']
 my_bucket = s3.Bucket(bucket)
 
 def download_from_s3(fileKey,fileDestination):
