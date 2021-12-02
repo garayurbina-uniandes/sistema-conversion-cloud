@@ -1,8 +1,9 @@
 from boto3.session import Session
+import os
 
-ACCESS_KEY_ID = 'ASIAZ7IG4XF7U7OX5WWS'
-SECRET_KEY = 'Ksthh5Av7Mba7ByIXsk0q2XZn4OFal6SUoFSpxoF'
-SESSION_TOKEN = 'FwoGZXIvYXdzEFsaDEkfraAX0v8M9ZlBQiLIAfjCfrvw2RQ9j62stAuaIykFJv/0HQk/QihlcbOrlgsDyi6swy0haYeCSnMh5xOQb+pj596oR3p/ipsuDN8qCcpAzhwTsJGNh2dl2KxFG7jASdhr5EbM39h9FMMi0GsItoHs6Xa82rOvBx8alQCwyVdpLTqfhRxwPK3ZXA/B3nTubHGrV4CCjVLaxolh4J0iJheZ4bxiYwF0YMIGfT+QWd3Mb02LZcgtEgGCRwTleN6nQe1EsHCONwXfR4auJVuguvJwn4VGiaQxKLXRoI0GMi01sxyx1Bb+MLB0L5+e927nbwved42CUEUbRQ9TFm+8U1E+FRnGqYilMd38cNo='
+ACCESS_KEY_ID = os.environ['ACCESS_KEY_ID']
+SECRET_KEY = os.environ['SECRET_KEY']
+SESSION_TOKEN = os.environ['SESSION_TOKEN']
 
 
 session = Session(aws_access_key_id=ACCESS_KEY_ID,
