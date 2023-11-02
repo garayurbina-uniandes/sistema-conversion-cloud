@@ -4,11 +4,13 @@ from email.mime.text import MIMEText
 
 from ..modelos.modelos import Tarea, Usuario
 
+email_destino = "recursosimp@gmail.com"
+
 def email(tarea: Tarea,usuario: Usuario):
 
-    username = "recursosimp@gmail.com"
+    username = email_destino
     password = "pepesitos"
-    mail_from = "recursosimp@gmail.com"
+    mail_from = email_destino
     mail_to = usuario.email
     mail_subject = "Conversión lista"
     mail_body = "Estimado " + usuario.username + " su archivo convertido está listo para ser descargado"
@@ -27,9 +29,9 @@ def email(tarea: Tarea,usuario: Usuario):
 
 def emailSecond(tarea: Tarea,usuario: Usuario):
 
-    username = "recursosimp@gmail.com"
+    username = email_destino
     password = "pepesitos"
-    mail_from = "recursosimp@gmail.com"
+    mail_from = email_destino
     mail_to = usuario.email
     mail_subject = "Conversión lista"
     mail_body = "Estimado " + usuario.username + " su archivo convertido está listo para ser descargado"
@@ -47,9 +49,9 @@ def emailSecond(tarea: Tarea,usuario: Usuario):
 
 def email_third(tarea: Tarea,usuario: Usuario):
 
-    username = "recursosimp@gmail.com"
+    username = email_destino
     password = "pepesitos"
-    mail_from = "recursosimp@gmail.com"
+    mail_from = email_destino
     mail_to = usuario.email
     mail_subject = "Conversión lista"
     mail_body = "Estimado " + usuario.username + " su archivo convertido está listo para ser descargado"
