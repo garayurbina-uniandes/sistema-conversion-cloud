@@ -121,7 +121,7 @@ class VistaArchivos(Resource):
             ruta = os.path.join(abs_dir, ruta_relativa)
             
         archivo_adjunto = ruta.split("/")[-1]
-        return send_file(open(ruta, "rb"), attachment_filename=archivo_adjunto)
+        return send_file(open(ruta, "rb"))
 
 
 
