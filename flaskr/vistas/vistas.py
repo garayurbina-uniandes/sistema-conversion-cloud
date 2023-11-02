@@ -119,8 +119,6 @@ class VistaArchivos(Resource):
             ruta_relativa = os.path.join(DOWNLOAD_FOLDER, file_name)
             #ruta_relativa = '../../files/download/test.mp3'
             ruta = os.path.join(abs_dir, ruta_relativa)
-            
-        archivo_adjunto = ruta.split("/")[-1]
         return send_file(open(ruta, "rb"))
 
 
