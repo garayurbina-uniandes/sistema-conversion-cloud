@@ -1,6 +1,6 @@
 from flaskr import create_app, urls
 from flask_restful import Api
-from flaskr.vistas import *
+from flaskr.vistas import VistaSignUp, VistaLogIn, VistaTarea, VistaTareas, VistaPing, VistaEmail, VistaArchivos
 from flaskr.modelos import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
