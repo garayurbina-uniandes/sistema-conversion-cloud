@@ -1,4 +1,5 @@
 import smtplib
+import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -9,11 +10,11 @@ email_subject = "Conversión lista"
 mail_body_end = " su archivo convertido está listo para ser descargado"
 estimado ="Estimado "
 smtp = "smtp.gmail.com"
+password = os.environ.get("EMAIL_PASSWORD")
 
 def email(usuario: Usuario):
 
     username = email_destino
-    password = "pepesitos"
     mail_from = email_destino
     mail_to = usuario.email
     mail_subject = email_subject
@@ -34,7 +35,6 @@ def email(usuario: Usuario):
 def emailSecond(tarea: Tarea,usuario: Usuario):
 
     username = email_destino
-    password = "pepesitos"
     mail_from = email_destino
     mail_to = usuario.email
     mail_subject = email_subject
@@ -54,7 +54,7 @@ def emailSecond(tarea: Tarea,usuario: Usuario):
 def email_third(tarea: Tarea,usuario: Usuario):
 
     username = email_destino
-    password = "pepesitos"
+
     mail_from = email_destino
     mail_to = usuario.email
     mail_subject = email_subject
