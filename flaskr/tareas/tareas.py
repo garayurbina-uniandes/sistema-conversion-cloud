@@ -50,8 +50,8 @@ def convertir_archivo(idTarea):
         # enviar_correo(tarea,usuario) desactivado por limitación AWS Academy
         actualizar_estado(tarea)
 
-def enviar_correo(tarea,usuario):
-  email(tarea,usuario)
+def enviar_correo(usuario):
+  email(usuario)
 
 def actualizar_estado(tarea):
     tarea.estado = Estado.PROCESSED
