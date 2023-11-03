@@ -10,7 +10,7 @@ mail_body_end = " su archivo convertido está listo para ser descargado"
 estimado ="Estimado "
 smtp = "smtp.gmail.com"
 
-def email(tarea: Tarea,usuario: Usuario):
+def email(usuario: Usuario):
 
     username = email_destino
     password = "pepesitos"
