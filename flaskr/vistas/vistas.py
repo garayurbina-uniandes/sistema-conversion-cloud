@@ -99,8 +99,8 @@ class VistaTareas(Resource):
     def post(self):  
         jwtHeader = get_jwt_identity()
         usuario = jwtHeader
-        root, extension = os.path.splitext(request.json["fileName"].upper())   
-        extension = re.sub("\.","",extension)     
+        root, extension = os.path.splitext(request.json["fileName"].upper())
+        extension = extension.replace(".", "")     
         tarea = Tarea(file_name=request.json["fileName"],from_format = extension, to_format=request.json["newFormat"].upper(),usuario=usuario, estado= 'UPLOADED',time_created=func.now())
         db.session.add(tarea)
         db.session.commit()
