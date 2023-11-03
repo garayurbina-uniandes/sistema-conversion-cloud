@@ -7,6 +7,7 @@ from ..modelos.modelos import Tarea, Usuario
 email_destino = "recursosimp@gmail.com"
 email_subject = "Conversión lista"
 mail_body_end = " su archivo convertido está listo para ser descargado"
+estimado ="Estimado "
 
 def email(tarea: Tarea,usuario: Usuario):
 
@@ -15,7 +16,7 @@ def email(tarea: Tarea,usuario: Usuario):
     mail_from = email_destino
     mail_to = usuario.email
     mail_subject = email_subject
-    mail_body = "Estimado " + usuario.username + mail_body_end
+    mail_body = Estimado + usuario.username + mail_body_end
 
     mimemsg = MIMEMultipart()
     mimemsg['From']=mail_from
@@ -36,7 +37,7 @@ def emailSecond(tarea: Tarea,usuario: Usuario):
     mail_from = email_destino
     mail_to = usuario.email
     mail_subject = email_subject
-    mail_body = "Estimado " + usuario.username + mail_body_end
+    mail_body = Estimado + usuario.username + mail_body_end
 
     mimemsg = MIMEMultipart()
     mimemsg['From']=mail_from
@@ -56,7 +57,7 @@ def email_third(tarea: Tarea,usuario: Usuario):
     mail_from = email_destino
     mail_to = usuario.email
     mail_subject = email_subject
-    mail_body = "Estimado " + usuario.username + mail_body_end
+    mail_body = Estimado + usuario.username + mail_body_end
 
     mimemsg = MIMEMultipart()
     mimemsg['From']=mail_from
