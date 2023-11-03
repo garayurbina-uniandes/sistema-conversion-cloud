@@ -8,6 +8,7 @@ email_destino = "recursosimp@gmail.com"
 email_subject = "Conversión lista"
 mail_body_end = " su archivo convertido está listo para ser descargado"
 estimado ="Estimado "
+smtp = "smtp.gmail.com"
 
 def email(tarea: Tarea,usuario: Usuario):
 
@@ -23,7 +24,7 @@ def email(tarea: Tarea,usuario: Usuario):
     mimemsg['To']=mail_to
     mimemsg['Subject']=mail_subject
     mimemsg.attach(MIMEText(mail_body, 'plain'))
-    connection = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    connection = smtplib.SMTP(host=smtp, port=587)
     connection.starttls()
     connection.login(username,password)
     connection.send_message(mimemsg)
@@ -44,7 +45,7 @@ def emailSecond(tarea: Tarea,usuario: Usuario):
     mimemsg['To']=mail_to
     mimemsg['Subject']=mail_subject
     mimemsg.attach(MIMEText(mail_body, 'plain'))
-    connection = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    connection = smtplib.SMTP(host=smtp, port=587)
     connection.starttls()
     connection.login(username,password)
     connection.send_message(mimemsg)
@@ -64,7 +65,7 @@ def email_third(tarea: Tarea,usuario: Usuario):
     mimemsg['To']=mail_to
     mimemsg['Subject']=mail_subject
     mimemsg.attach(MIMEText(mail_body, 'plain'))
-    connection = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    connection = smtplib.SMTP(host=smtp, port=587)
     connection.starttls()
     connection.login(username,password)
     connection.send_message(mimemsg)
